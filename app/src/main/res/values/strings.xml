@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Kitty Store</string>
+    <string name="btn_login_text">Log in</string>
+    <string name="btn_signup_text">Sign up</string>
+</resources>
