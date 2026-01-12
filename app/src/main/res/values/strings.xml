@@ -1,5 +1,16 @@
 <resources>
+    <!-- Common strings -->
     <string name="app_name">Kitty Store</string>
+
+    <!-- Main Activity strings -->
     <string name="btn_login_text">Log in</string>
     <string name="btn_signup_text">Sign up</string>
+
+    <!-- Sign up Activity strings -->
+    <string name="signup_title">Sign up</string>
+    <string name="login_title">Log in</string>
+    <string name="password_hint">Password</string>
+    <string name="login_hint">Login</string>
+    <string name="to_login_from_signup_first">"Already have an account? "</string>
+    <string name="to_login_from_signup_second">Log in</string>
 </resources>
