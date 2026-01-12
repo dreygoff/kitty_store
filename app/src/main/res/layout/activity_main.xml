@@ -24,7 +24,6 @@
         android:layout_marginTop="88dp"
         android:text="@string/btn_login_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_name" />
 
