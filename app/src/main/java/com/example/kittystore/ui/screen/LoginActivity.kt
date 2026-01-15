@@ -1,4 +1,4 @@
-package com.example.kittystore.ui
+package com.example.kittystore.ui.screen
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

@@ -1,4 +1,4 @@
-package com.example.kittystore.ui
+package com.example.kittystore.ui.screen
 
 import android.content.Intent
 import android.os.Bundle
