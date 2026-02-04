@@ -1,10 +1,9 @@
 package com.example.kittystore.ui.screen.signup
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kittystore.domain.usecase.CreateUserUseCase
-import com.example.kittystore.ui.UiEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,27 +11,40 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SignupViewModel: ViewModel() {
+@HiltViewModel
+class SignupViewModel @Inject constructor(
+    private val createUserUseCase: CreateUserUseCase
+): ViewModel() {
 
-    private val createUserUseCase = CreateUserUseCase()
-    private val _events = MutableSharedFlow<UiEvent>()
+    private val _events = MutableSharedFlow<UiEvent>(
+        replay = 0,
+        extraBufferCapacity = 1
+    )
     val events = _events.asSharedFlow()
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
 
-    fun btnSignupClicked(username: String, password: String) {
+    private val _state = MutableStateFlow(UiState())
+    val state = _state.asStateFlow()
+
+    fun onSignupClicked(username: String, password: String) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _state.value = _state.value.copy(isLoading = true)
             val event = try {
                 withContext(Dispatchers.IO) { createUserUseCase(username, password) }
                 UiEvent.SignupSuccess
             } catch (e: IllegalArgumentException) {
-                UiEvent.Error(e.message ?: "Unknown Error")
+                UiEvent.ShowToast(e.message)
             }
-            _isLoading.value = false
+            _state.value = _state.value.copy(isLoading = false)
             _events.emit(event)
         }
+    }
 
+    fun onToLoginFromSignupSecondClicked(){
+        viewModelScope.launch {
+            _events.emit(UiEvent.NavigateToLogin)
+        }
     }
 }
+

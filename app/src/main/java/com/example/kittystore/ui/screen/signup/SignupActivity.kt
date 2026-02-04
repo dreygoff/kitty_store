@@ -2,9 +2,6 @@ package com.example.kittystore.ui.screen.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -14,12 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kittystore.R
 import com.example.kittystore.databinding.ActivitySignupBinding
-import com.example.kittystore.ui.UiEvent
 import com.example.kittystore.ui.screen.login.LoginActivity
-import com.example.kittystore.ui.screen.signup.SignupViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.toString
 
+@AndroidEntryPoint
 class SignupActivity : AppCompatActivity() {
 
     private val viewModel: SignupViewModel by viewModels()
@@ -30,69 +26,59 @@ class SignupActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         binding = ActivitySignupBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         binding.toLoginFromSignupSecond.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            viewModel.onToLoginFromSignupSecondClicked()
         }
 
         binding.btnSignup.setOnClickListener {
-            viewModel.btnSignupClicked(
-                binding.inputLogin.text.toString(),
-                binding.inputPassword.text.toString()
+            viewModel.onSignupClicked(
+                binding.inputLogin.text.toString(), binding.inputPassword.text.toString()
             )
         }
 
-        observeViewModel()
+        subscribeViewModel()
     }
 
-    private fun observeViewModel() {
+    private fun subscribeViewModel() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                launch{
-                    viewModel.isLoading.collect { loading ->
-                        binding.btnSignup.isEnabled = !loading
-                        binding.inputLogin.isEnabled = !loading
-                        binding.inputPassword.isEnabled = !loading
-                    }
+                launch {
+                    viewModel.state.collect { state -> renderState(state) }
                 }
 
-                launch{
-                    viewModel.events.collect { event ->
-                        when (event) {
-                            is UiEvent.Error -> {
-                                Toast.makeText(
-                                    this@SignupActivity,
-                                    "Error: ${event.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            is UiEvent.ShowToast -> {
-                                Toast.makeText(
-                                    this@SignupActivity, event.message, Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            UiEvent.SignupSuccess -> {
-                                Toast.makeText(
-                                    this@SignupActivity,
-                                    "Registration successful",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                startActivity(
-                                    Intent(
-                                        this@SignupActivity,
-                                        LoginActivity::class.java
-                                    )
-                                )
-                            }
-                        }
-                    }
+                launch {
+                    viewModel.events.collect { event -> handleEvent(event) }
                 }
+            }
+        }
+    }
+
+    private fun showToast(message: String?) {
+        val text = message ?: getString(R.string.err_unknown)
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun renderState(state: UiState) {
+        binding.btnSignup.isEnabled = !state.isLoading
+        binding.inputLogin.isEnabled = !state.isLoading
+        binding.inputPassword.isEnabled = !state.isLoading
+    }
+
+    private fun handleEvent(event: UiEvent) {
+        when (event) {
+            is UiEvent.ShowToast -> showToast(event.message)
+            UiEvent.NavigateToLogin -> navigateToLogin()
+            UiEvent.SignupSuccess -> {
+                showToast(getString(R.string.msg_signup_success))
+                navigateToLogin()
             }
         }
     }
