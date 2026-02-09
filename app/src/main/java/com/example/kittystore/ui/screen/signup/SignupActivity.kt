@@ -75,11 +75,12 @@ class SignupActivity : AppCompatActivity() {
     private fun handleEvent(event: UiEvent) {
         when (event) {
             is UiEvent.ShowToast -> showToast(event.message)
-            UiEvent.NavigateToLogin -> navigateToLogin()
             UiEvent.SignupSuccess -> {
                 showToast(getString(R.string.msg_signup_success))
                 navigateToLogin()
             }
+            UiEvent.UsernameTaken -> showToast(getString(R.string.msg_signup_username_taken))
+            UiEvent.NavigateToLogin -> navigateToLogin()
         }
     }
 }

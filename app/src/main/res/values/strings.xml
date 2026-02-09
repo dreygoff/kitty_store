@@ -15,4 +15,5 @@
     <string name="to_login_from_signup_first">"Already have an account? "</string>
     <string name="to_login_from_signup_second">Log in</string>
     <string name="msg_signup_success">Registration successful</string>
+    <string name="msg_signup_username_taken">The username is already taken</string>
 </resources>

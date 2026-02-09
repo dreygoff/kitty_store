@@ -1,5 +1,6 @@
 package com.example.kittystore.di
 
+import com.example.kittystore.data.repository.FakeUserRepositoryImpl
 import com.example.kittystore.data.repository.UserRepository
 import com.example.kittystore.data.repository.UserRepositoryImpl
 import dagger.Module
@@ -14,5 +15,5 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository = UserRepositoryImpl()
+    fun provideUserRepository(): UserRepository = FakeUserRepositoryImpl()
 }

@@ -7,5 +7,10 @@ interface UserRepository {
         username: String,
         passwordHash: String,
         salt: String
-        ): UserDto
+        ): CreateUserResult
+
+    sealed class CreateUserResult {
+        data class Success(val user: UserDto) : CreateUserResult()
+        object UsernameTaken : CreateUserResult()
+    }
 }

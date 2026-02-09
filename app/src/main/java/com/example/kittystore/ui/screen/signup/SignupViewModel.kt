@@ -2,6 +2,7 @@ package com.example.kittystore.ui.screen.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kittystore.data.repository.UserRepository
 import com.example.kittystore.domain.usecase.CreateUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val createUserUseCase: CreateUserUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _events = MutableSharedFlow<UiEvent>(
         replay = 0,
@@ -30,18 +31,25 @@ class SignupViewModel @Inject constructor(
     fun onSignupClicked(username: String, password: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
+
             val event = try {
-                withContext(Dispatchers.IO) { createUserUseCase(username, password) }
-                UiEvent.SignupSuccess
+                withContext(Dispatchers.IO) {
+                    val result = createUserUseCase(username, password)
+                    when (result) {
+                        is UserRepository.CreateUserResult.Success -> UiEvent.SignupSuccess
+                        UserRepository.CreateUserResult.UsernameTaken -> UiEvent.UsernameTaken
+                    }
+                }
             } catch (e: IllegalArgumentException) {
                 UiEvent.ShowToast(e.message)
             }
+
             _state.value = _state.value.copy(isLoading = false)
             _events.emit(event)
         }
     }
 
-    fun onToLoginFromSignupSecondClicked(){
+    fun onToLoginFromSignupSecondClicked() {
         viewModelScope.launch {
             _events.emit(UiEvent.NavigateToLogin)
         }
