@@ -6,11 +6,14 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kittystore.R
 import com.example.kittystore.databinding.ActivitySignupBinding
+import com.example.kittystore.ui.screen.UiState
+import com.example.kittystore.ui.screen.UiText
 import com.example.kittystore.ui.screen.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,7 +37,7 @@ class SignupActivity : AppCompatActivity() {
 
         binding.btnSignup.setOnClickListener {
             viewModel.onSignupClicked(
-                binding.inputLogin.text.toString(), binding.inputPassword.text.toString()
+                binding.inputUsername.text.toString(), binding.inputPassword.text.toString()
             )
         }
 
@@ -56,9 +59,8 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToast(message: String?) {
-        val text = message ?: getString(R.string.err_unknown)
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    private fun showToast(message: UiText) {
+        Toast.makeText(this, message.asString(this), Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToLogin() {
@@ -68,18 +70,15 @@ class SignupActivity : AppCompatActivity() {
 
     private fun renderState(state: UiState) {
         binding.btnSignup.isEnabled = !state.isLoading
-        binding.inputLogin.isEnabled = !state.isLoading
+        binding.inputUsername.isEnabled = !state.isLoading
         binding.inputPassword.isEnabled = !state.isLoading
     }
 
     private fun handleEvent(event: UiEvent) {
         when (event) {
-            is UiEvent.ShowToast -> showToast(event.message)
-            UiEvent.SignupSuccess -> {
-                showToast(getString(R.string.msg_signup_success))
-                navigateToLogin()
+            is UiEvent.ShowToast -> {
+                showToast(event.message)
             }
-            UiEvent.UsernameTaken -> showToast(getString(R.string.msg_signup_username_taken))
             UiEvent.NavigateToLogin -> navigateToLogin()
         }
     }
