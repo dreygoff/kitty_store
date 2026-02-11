@@ -1,4 +1,4 @@
-package com.example.kittystore.domain.usecase
+package com.example.kittystore.domain.auth
 
 import com.example.kittystore.data.repository.UserRepository
 import com.example.kittystore.data.security.PasswordHasher
@@ -16,7 +16,7 @@ class CreateUserUseCase @Inject constructor(
     private val passwordRegex =
         Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&*()_\\-+=\\[\\]{}|;:',.<>?/~`]).{8,25}$")
 
-    suspend operator fun invoke(username: String, password: String): UserRepository.CreateUserResult {
+    suspend operator fun invoke(username: String, password: String): CreateUserResult {
         validateUsername(username)
         validatePassword(password)
 

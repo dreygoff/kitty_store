@@ -47,7 +47,7 @@ class SignupViewModel @Inject constructor(
                     CreateUserResult.UsernameTaken -> {
                         _events.emit(
                             UiEvent.ShowToast(
-                                UiText.StringResource(R.string.msg_signup_username_taken)
+                                UiText.StringResource(R.string.err_signup_username_taken)
                             )
                         )
                     }
@@ -55,7 +55,7 @@ class SignupViewModel @Inject constructor(
             } catch (e: Exception) {
                 _events.emit(
                     UiEvent.ShowToast(
-                        e.message?.let {UiText.DynamicString(it)}
+                        e.message?.let { UiText.DynamicString(it) }
                             ?: UiText.StringResource(R.string.err_unknown)
                     )
                 )

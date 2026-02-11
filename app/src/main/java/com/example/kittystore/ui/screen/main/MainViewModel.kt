@@ -11,10 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
 
-    private val _events = MutableSharedFlow<UiEvent>(
-        replay = 0,
-        extraBufferCapacity = 1
-    )
+    private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
 
     fun onLoginClicked() {

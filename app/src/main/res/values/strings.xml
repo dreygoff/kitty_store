@@ -7,13 +7,18 @@
     <string name="btn_login_text">Log in</string>
     <string name="btn_signup_text">Sign up</string>
 
-    <!-- Sign up Activity strings -->
+    <!-- Signup Activity strings -->
     <string name="signup_title">Sign up</string>
     <string name="login_title">Log in</string>
     <string name="password_hint">Password</string>
-    <string name="login_hint">Login</string>
+    <string name="username_hint">Username</string>
     <string name="to_login_from_signup_first">"Already have an account? "</string>
     <string name="to_login_from_signup_second">Log in</string>
     <string name="msg_signup_success">Registration successful</string>
-    <string name="msg_signup_username_taken">The username is already taken</string>
+    <string name="err_signup_username_taken">The username is already taken</string>
+
+    <!--Login Activity strings -->
+    <string name="err_user_not_found">User not found</string>
+    <string name="err_invalid_password">Invalid password</string>
+
 </resources>

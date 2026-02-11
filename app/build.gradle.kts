@@ -44,6 +44,9 @@ android {
 
 dependencies {
     implementation(libs.hilt.android)
+    implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.fragment.ktx)
     ksp(libs.hilt.compiler)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.ktx)

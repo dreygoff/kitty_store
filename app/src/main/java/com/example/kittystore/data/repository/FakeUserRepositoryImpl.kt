@@ -1,33 +1,40 @@
 package com.example.kittystore.data.repository
 
 import com.example.kittystore.data.dto.UserDto
+import com.example.kittystore.domain.auth.CreateUserResult
 import kotlinx.coroutines.delay
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
+
+private const val NETWORK_DELAY = 2000L
 
 class FakeUserRepositoryImpl : UserRepository {
-
-    val users = mutableMapOf<String, UserDto>()
+    private val users = ConcurrentHashMap<String, UserDto>()
 
     override suspend fun createUser(
         username: String,
         passwordHash: String,
         salt: String
-    ): UserRepository.CreateUserResult {
+    ): CreateUserResult {
 
         //Network delay imitation
-        delay(2000)
+        delay(NETWORK_DELAY)
 
-        if (!users.containsKey(username)) {
-            val user = UserDto(
-                id = UUID.randomUUID().toString(),
-                username,
-                passwordHash,
-                salt
-            )
-            users.put(username, user)
-            return UserRepository.CreateUserResult.Success(user)
+        val user = UserDto(
+            id = UUID.randomUUID().toString(),
+            username,
+            passwordHash,
+            salt
+        )
+        val existing = users.putIfAbsent(username, user)
+        return if (existing == null) {
+            CreateUserResult.Success(user)
         } else {
-            return UserRepository.CreateUserResult.UsernameTaken
+            CreateUserResult.UsernameTaken
         }
+    }
+
+    override suspend fun getUserByUsername(username: String): UserDto? {
+        return users[username]
     }
 }
