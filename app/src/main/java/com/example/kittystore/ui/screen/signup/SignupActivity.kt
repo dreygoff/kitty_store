@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.example.kittystore.databinding.ActivitySignupBinding
 import com.example.kittystore.ui.base.BaseActivity
+import com.example.kittystore.ui.base.UiState
 import com.example.kittystore.ui.base.collectStateAndEvents
-import com.example.kittystore.ui.screen.UiState
 import com.example.kittystore.ui.screen.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 

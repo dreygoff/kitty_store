@@ -17,23 +17,16 @@ class CreateUserUseCase @Inject constructor(
         Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#%^&*()_\\-+=\\[\\]{}|;:',.<>?/~`]).{8,25}$")
 
     suspend operator fun invoke(username: String, password: String): CreateUserResult {
-        validateUsername(username)
-        validatePassword(password)
+        if (!usernameRegex.matches(username)) {
+            return CreateUserResult.InvalidUsername
+        }
+        if (!passwordRegex.matches(password)) {
+            return CreateUserResult.InvalidPassword
+        }
 
         val salt = PasswordHasher.generateSalt()
         val passwordHash = PasswordHasher.hashPassword(password, salt)
+
         return userRepository.createUser(username, passwordHash, salt)
-    }
-
-    private fun validateUsername(username: String) {
-        require(usernameRegex.matches(username)) {
-            "Username must be 5-20 characters, a-z, A-Z, 0-9, '_' (not first character)"
-        }
-    }
-
-    private fun validatePassword(password: String) {
-        require(passwordRegex.matches(password)) {
-            "Password must be 8-25 chars, contain upper, lower, digit and special char"
-        }
     }
 }
