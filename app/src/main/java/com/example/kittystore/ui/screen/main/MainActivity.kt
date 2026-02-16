@@ -14,6 +14,7 @@ import com.example.kittystore.R
 import com.example.kittystore.databinding.ActivityMainBinding
 import com.example.kittystore.ui.screen.signup.SignupActivity
 import com.example.kittystore.ui.screen.login.LoginActivity
+import com.example.kittystore.ui.screen.store.StoreActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //////////////////////////TEST//////////////////////////
+        startActivity(Intent(this, StoreActivity::class.java))
+        //////////////////////////TEST//////////////////////////
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

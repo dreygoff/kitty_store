@@ -13,7 +13,7 @@ hilt = "2.57.1"
 lifecycle = "2.10.0"
 uiAndroid = "1.10.2"
 lifecycleLivedataKtx = "2.10.0"
-fragmentKtx = "1.8.8"
+fragmentKtx = "1.8.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
