@@ -16,6 +16,8 @@
     <string name="to_login_from_signup_second">Log in</string>
     <string name="msg_signup_success">Registration successful</string>
     <string name="err_signup_username_taken">The username is already taken</string>
+    <string name="err_signup_invalid_username">"Username must be 5–20 characters, a–z, A–Z, 0–9, \'_' (not first character)"</string>
+    <string name="err_signup_invalid_password">"Password must be 8–25 chars, contain upper, lower, digit and special char"</string>
 
     <!--Login Activity strings -->
     <string name="err_user_not_found">User not found</string>

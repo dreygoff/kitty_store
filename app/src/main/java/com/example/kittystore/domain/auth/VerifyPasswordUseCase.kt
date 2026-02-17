@@ -13,12 +13,12 @@ class VerifyPasswordUseCase @Inject constructor(
         password: String
     ): VerifyPasswordResult {
 
-        val user = userRepository.getUserByUsername(username)
-            ?: return VerifyPasswordResult.UserNotFound
-
-        return if (PasswordHasher.verifyPassword(user, password))
-            VerifyPasswordResult.Success
-        else
-            VerifyPasswordResult.InvalidPassword
+        return userRepository.getUserByUsername(username)?.let {
+            if (PasswordHasher.verifyPassword(it, password)) {
+                VerifyPasswordResult.Success
+            } else {
+                VerifyPasswordResult.InvalidPassword
+            }
+        } ?: VerifyPasswordResult.UserNotFound
     }
 }

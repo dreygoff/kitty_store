@@ -1,69 +1,38 @@
 package com.example.kittystore.ui.screen.signup
 
-import android.content.Intent
-import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import android.view.LayoutInflater
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.kittystore.databinding.ActivitySignupBinding
-import com.example.kittystore.ui.screen.UiState
-import com.example.kittystore.ui.screen.UiText
+import com.example.kittystore.ui.base.BaseActivity
+import com.example.kittystore.ui.base.UiState
+import com.example.kittystore.ui.base.collectStateAndEvents
 import com.example.kittystore.ui.screen.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SignupActivity : AppCompatActivity() {
+class SignupActivity : BaseActivity<ActivitySignupBinding>() {
 
     private val viewModel: SignupViewModel by viewModels()
-    private lateinit var binding: ActivitySignupBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+    override fun inflateBinding(inflater: LayoutInflater) = ActivitySignupBinding.inflate(inflater)
 
-        binding = ActivitySignupBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun setupUi() {
         binding.toLoginFromSignupSecond.setOnClickListener {
             viewModel.onToLoginFromSignupSecondClicked()
         }
-
         binding.btnSignup.setOnClickListener {
             viewModel.onSignupClicked(
-                binding.inputUsername.text.toString(), binding.inputPassword.text.toString()
+                binding.inputUsername.text.toString(),
+                binding.inputPassword.text.toString()
             )
         }
 
-        subscribeViewModel()
-    }
-
-    private fun subscribeViewModel() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                launch {
-                    viewModel.state.collect { state -> renderState(state) }
-                }
-
-                launch {
-                    viewModel.events.collect { event -> handleEvent(event) }
-                }
-            }
-        }
-    }
-
-    private fun showToast(message: UiText) {
-        Toast.makeText(this, message.asString(this), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this@SignupActivity, LoginActivity::class.java)
-        startActivity(intent)
+        collectStateAndEvents(
+            viewModel.state,
+            viewModel.events,
+            renderState = ::renderState,
+            handleEvent = ::handleEvent
+        )
     }
 
     private fun renderState(state: UiState) {
@@ -75,7 +44,7 @@ class SignupActivity : AppCompatActivity() {
     private fun handleEvent(event: UiEvent) {
         when (event) {
             is UiEvent.ShowToast -> showToast(event.message)
-            UiEvent.NavigateToLogin -> navigateToLogin()
+            UiEvent.NavigateToLogin -> navigateTo(LoginActivity::class.java)
         }
     }
 }

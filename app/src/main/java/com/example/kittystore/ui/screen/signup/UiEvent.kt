@@ -1,6 +1,6 @@
 package com.example.kittystore.ui.screen.signup
 
-import com.example.kittystore.ui.screen.UiText
+import com.example.kittystore.ui.base.UiText
 
 sealed class UiEvent {
     data class ShowToast(val message: UiText) : UiEvent()
