@@ -1,16 +1,26 @@
 <resources>
     <!-- Common strings -->
     <string name="app_name">Kitty Store</string>
+    <string name="err_unknown">Unknown Error</string>
 
     <!-- Main Activity strings -->
     <string name="btn_login_text">Log in</string>
     <string name="btn_signup_text">Sign up</string>
 
-    <!-- Sign up Activity strings -->
+    <!-- Signup Activity strings -->
     <string name="signup_title">Sign up</string>
     <string name="login_title">Log in</string>
     <string name="password_hint">Password</string>
-    <string name="login_hint">Login</string>
+    <string name="username_hint">Username</string>
     <string name="to_login_from_signup_first">"Already have an account? "</string>
     <string name="to_login_from_signup_second">Log in</string>
+    <string name="msg_signup_success">Registration successful</string>
+    <string name="err_signup_username_taken">The username is already taken</string>
+    <string name="err_signup_invalid_username">"Username must be 5–20 characters, a–z, A–Z, 0–9, \'_' (not first character)"</string>
+    <string name="err_signup_invalid_password">"Password must be 8–25 chars, contain upper, lower, digit and special char"</string>
+
+    <!--Login Activity strings -->
+    <string name="err_user_not_found">User not found</string>
+    <string name="err_invalid_password">Invalid password</string>
+
 </resources>
