@@ -1,4 +1,4 @@
-package com.example.kittystore.domain.auth
+package com.example.kittystore.domain.usecase.auth
 
 sealed class VerifyPasswordResult {
     object Success : VerifyPasswordResult()

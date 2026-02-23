@@ -7,6 +7,7 @@ import com.example.kittystore.ui.base.BaseActivity
 import com.example.kittystore.ui.base.collectEvents
 import com.example.kittystore.ui.screen.login.LoginActivity
 import com.example.kittystore.ui.screen.signup.SignupActivity
+import com.example.kittystore.ui.screen.store.StoreActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun inflateBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(inflater)
 
     override fun setupUi() {
+        binding.mainTitle.setOnClickListener {
+            viewModel.onTitleClicked()
+        }
+
         binding.btnLogin.setOnClickListener {
             viewModel.onLoginClicked()
         }
@@ -33,6 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun handleEvent(event: UiEvent) {
         when (event) {
+            UiEvent.NavigateToStore -> navigateTo(StoreActivity::class.java)
             UiEvent.NavigateToLogin -> navigateTo(LoginActivity::class.java)
             UiEvent.NavigateToSignup -> navigateTo(SignupActivity::class.java)
         }

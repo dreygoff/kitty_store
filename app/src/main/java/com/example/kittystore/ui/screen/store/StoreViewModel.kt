@@ -1,11 +1,16 @@
 package com.example.kittystore.ui.screen.store
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import com.example.kittystore.domain.usecase.store.GetStoreItemUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class StoreViewModel : ViewModel() {
+@HiltViewModel
+class StoreViewModel @Inject constructor(
+    private val getStoreItemUseCase: GetStoreItemUseCase
+) : ViewModel() {
 
-    private val _items = MutableStateFlow<List<StoreItem>>(emptyList())
-    val items = _items.asStateFlow()
+    val pagingData = getStoreItemUseCase().cachedIn(viewModelScope)
 }
