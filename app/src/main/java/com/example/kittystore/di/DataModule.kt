@@ -1,5 +1,8 @@
 package com.example.kittystore.di
 
+import com.example.kittystore.data.paging.factory.CatApiStorePagingSourceFactoryImpl
+import com.example.kittystore.data.paging.factory.CataasStorePagingSourceFactoryImpl
+import com.example.kittystore.data.paging.factory.StorePagingSourceFactory
 import com.example.kittystore.data.repository.FakeUserRepositoryImpl
 import com.example.kittystore.data.repository.StoreRepositoryImpl
 import com.example.kittystore.data.security.PasswordHasherImpl
@@ -14,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class HiltModule {
+abstract class DataModule {
 
     @Binds
     @Singleton
@@ -27,13 +30,20 @@ abstract class HiltModule {
 
     @Binds
     @Singleton
-    abstract fun providePasswordHasher(
+    abstract fun bindPasswordHasher(
         impl: PasswordHasherImpl
     ): PasswordHasher
 
     @Binds
     @Singleton
-    abstract fun provideStoreRepository(
+    abstract fun bindStoreRepository(
         impl: StoreRepositoryImpl
     ): StoreRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStorePagingSourceFactory(
+        impl: CatApiStorePagingSourceFactoryImpl
+        //impl: CataasStorePagingSourceFactoryImpl
+    ): StorePagingSourceFactory
 }

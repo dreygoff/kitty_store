@@ -5,12 +5,15 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.ImageLoader
 import coil.load
 import com.example.kittystore.databinding.StoreItemBinding
 import com.example.kittystore.domain.model.StoreItem
 
 
-class StoreAdapter : PagingDataAdapter<StoreItem, StoreAdapter.VH>(ItemComparator) {
+class StoreAdapter(
+    private val imageLoader: ImageLoader
+) : PagingDataAdapter<StoreItem, StoreAdapter.VH>(ItemComparator) {
 
     object ItemComparator : DiffUtil.ItemCallback<StoreItem>() {
         override fun areItemsTheSame(oldItem: StoreItem, newItem: StoreItem) =

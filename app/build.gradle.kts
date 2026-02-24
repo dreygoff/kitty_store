@@ -17,6 +17,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "CAT_API_KEY",
+            "\"${project.findProperty("CAT_API_KEY") ?: ""}\""
+        )
     }
 
     buildTypes {
@@ -31,6 +37,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -44,6 +51,8 @@ android {
 
 dependencies {
     implementation(libs.coil)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.glide)
     ksp(libs.glide.compiler)
