@@ -34,7 +34,7 @@ class StoreFragment : Fragment(R.layout.fragment_store) {
         _binding = FragmentStoreBinding.bind(view)
 
         imageLoader = ImageLoader.Builder(requireContext()).crossfade(true).build()
-        adapter = StoreAdapter(imageLoader)
+        adapter = StoreAdapter()
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = adapter
 
