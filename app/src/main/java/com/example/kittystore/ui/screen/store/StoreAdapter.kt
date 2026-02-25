@@ -9,8 +9,7 @@ import coil.load
 import com.example.kittystore.databinding.StoreItemBinding
 import com.example.kittystore.domain.model.StoreItem
 
-
-class StoreAdapter() : PagingDataAdapter<StoreItem, StoreAdapter.VH>(ItemComparator) {
+class StoreAdapter : PagingDataAdapter<StoreItem, StoreAdapter.VH>(ItemComparator) {
 
     object ItemComparator : DiffUtil.ItemCallback<StoreItem>() {
         override fun areItemsTheSame(oldItem: StoreItem, newItem: StoreItem) =
@@ -20,19 +19,30 @@ class StoreAdapter() : PagingDataAdapter<StoreItem, StoreAdapter.VH>(ItemCompara
             oldItem == newItem
     }
 
-    class VH(val binding: StoreItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class VH(
+        private val binding: StoreItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: StoreItem) {
+            binding.itemName.text = item.name
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        return VH(StoreItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            binding.imageItem.load(item.imageUrl) {
+                crossfade(true)
+                placeholder(android.R.color.darker_gray)
+            }
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): VH {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = StoreItemBinding.inflate(inflater, parent, false)
+                return VH(binding)
+            }
+        }
     }
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        val item = getItem(position) ?: return
-        holder.binding.itemName.text = item.name
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH.create(parent)
 
-        holder.binding.imageItem.load(item.imageUrl) {
-            crossfade(true)
-            placeholder(android.R.color.darker_gray)
-        }
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
     }
 }

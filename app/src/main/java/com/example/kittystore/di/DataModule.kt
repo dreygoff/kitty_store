@@ -1,7 +1,6 @@
 package com.example.kittystore.di
 
 import com.example.kittystore.data.paging.factory.CatApiStorePagingSourceFactoryImpl
-import com.example.kittystore.data.paging.factory.CataasStorePagingSourceFactoryImpl
 import com.example.kittystore.data.paging.factory.StorePagingSourceFactory
 import com.example.kittystore.data.repository.FakeUserRepositoryImpl
 import com.example.kittystore.data.repository.StoreRepositoryImpl
@@ -44,6 +43,5 @@ abstract class DataModule {
     @Singleton
     abstract fun bindStorePagingSourceFactory(
         impl: CatApiStorePagingSourceFactoryImpl
-        //impl: CataasStorePagingSourceFactoryImpl
     ): StorePagingSourceFactory
 }
