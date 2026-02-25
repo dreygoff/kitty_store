@@ -2,8 +2,8 @@ package com.example.kittystore.ui.screen.signup
 
 import androidx.lifecycle.viewModelScope
 import com.example.kittystore.R
-import com.example.kittystore.domain.auth.CreateUserResult
-import com.example.kittystore.domain.auth.CreateUserUseCase
+import com.example.kittystore.domain.usecase.auth.CreateUserResult
+import com.example.kittystore.domain.usecase.auth.CreateUserUseCase
 import com.example.kittystore.ui.base.BaseStateModelView
 import com.example.kittystore.ui.base.UiText.StringResource
 import com.example.kittystore.ui.screen.signup.UiEvent.ShowToast

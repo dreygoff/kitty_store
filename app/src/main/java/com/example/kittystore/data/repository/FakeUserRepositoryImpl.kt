@@ -1,14 +1,17 @@
 package com.example.kittystore.data.repository
 
 import com.example.kittystore.data.dto.UserDto
-import com.example.kittystore.domain.auth.CreateUserResult
+import com.example.kittystore.data.mapper.toDomain
+import com.example.kittystore.domain.usecase.auth.CreateUserResult
+import com.example.kittystore.domain.repository.UserRepository
 import kotlinx.coroutines.delay
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import javax.inject.Inject
 
 private const val NETWORK_DELAY = 2000L
 
-class FakeUserRepositoryImpl : UserRepository {
+class FakeUserRepositoryImpl @Inject constructor() : UserRepository {
     private val users = ConcurrentHashMap<String, UserDto>()
 
     override suspend fun createUser(
@@ -20,15 +23,17 @@ class FakeUserRepositoryImpl : UserRepository {
         //Network delay imitation
         delay(NETWORK_DELAY)
 
-        val user = UserDto(
+        val userDto = UserDto(
             id = UUID.randomUUID().toString(),
-            username,
-            passwordHash,
-            salt
+            username = username,
+            passwordHash = passwordHash,
+            salt = salt
         )
-        val existing = users.putIfAbsent(username, user)
+
+        val existing = users.putIfAbsent(username, userDto)
+
         return if (existing == null) {
-            CreateUserResult.Success(user)
+            CreateUserResult.Success(userDto.toDomain())
         } else {
             CreateUserResult.UsernameTaken
         }

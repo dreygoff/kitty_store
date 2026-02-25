@@ -1,7 +1,8 @@
 package com.example.kittystore.data.repository
 
 import com.example.kittystore.data.dto.UserDto
-import com.example.kittystore.domain.auth.CreateUserResult
+import com.example.kittystore.domain.usecase.auth.CreateUserResult
+import com.example.kittystore.domain.repository.UserRepository
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor() : UserRepository {

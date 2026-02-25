@@ -1,19 +1,12 @@
 package com.example.kittystore.ui.screen.store
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
 import com.example.kittystore.databinding.ActivityStoreBinding
+import com.example.kittystore.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class StoreActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class StoreActivity : BaseActivity<ActivityStoreBinding>() {
 
-    private lateinit var binding: ActivityStoreBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-
-        super.onCreate(savedInstanceState)
-        binding = ActivityStoreBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-    }
+    override fun inflateBinding(inflater: LayoutInflater) = ActivityStoreBinding.inflate(inflater)
 }

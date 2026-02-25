@@ -8,6 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : BaseViewModel<UiEvent>() {
 
+    fun onTitleClicked() = emitEvent(UiEvent.NavigateToStore)
     fun onLoginClicked() = emitEvent(UiEvent.NavigateToLogin)
     fun onSignupClicked() = emitEvent(UiEvent.NavigateToSignup)
 }

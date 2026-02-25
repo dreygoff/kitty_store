@@ -2,8 +2,8 @@ package com.example.kittystore.ui.screen.login
 
 import androidx.lifecycle.viewModelScope
 import com.example.kittystore.R
-import com.example.kittystore.domain.auth.VerifyPasswordResult
-import com.example.kittystore.domain.auth.VerifyPasswordUseCase
+import com.example.kittystore.domain.usecase.auth.VerifyPasswordResult
+import com.example.kittystore.domain.usecase.auth.VerifyPasswordUseCase
 import com.example.kittystore.ui.base.BaseStateModelView
 import com.example.kittystore.ui.base.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel

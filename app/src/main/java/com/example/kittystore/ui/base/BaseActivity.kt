@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.example.kittystore.ui.base.UiText
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
 

@@ -1,11 +1,12 @@
-package com.example.kittystore.domain.auth
+package com.example.kittystore.domain.usecase.auth
 
-import com.example.kittystore.data.repository.UserRepository
-import com.example.kittystore.data.security.PasswordHasher
+import com.example.kittystore.domain.repository.UserRepository
+import com.example.kittystore.domain.security.PasswordHasher
 import javax.inject.Inject
 
 class CreateUserUseCase @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val passwordHasher: PasswordHasher
 ) {
 
     // Username must be 5-20 characters long. Available: a-z, A-Z, 0-9, "_"(not first character)
@@ -24,8 +25,8 @@ class CreateUserUseCase @Inject constructor(
             return CreateUserResult.InvalidPassword
         }
 
-        val salt = PasswordHasher.generateSalt()
-        val passwordHash = PasswordHasher.hashPassword(password, salt)
+        val salt = passwordHasher.generateSalt()
+        val passwordHash = passwordHasher.hashPassword(password, salt)
 
         return userRepository.createUser(username, passwordHash, salt)
     }
