@@ -4,6 +4,7 @@ import com.example.kittystore.data.paging.factory.CatApiStorePagingSourceFactory
 import com.example.kittystore.data.paging.factory.StorePagingSourceFactory
 import com.example.kittystore.data.repository.FakeUserRepositoryImpl
 import com.example.kittystore.data.repository.StoreRepositoryImpl
+import com.example.kittystore.data.repository.UserRepositoryImpl
 import com.example.kittystore.data.security.PasswordHasherImpl
 import com.example.kittystore.domain.repository.StoreRepository
 import com.example.kittystore.domain.repository.UserRepository
@@ -22,9 +23,9 @@ abstract class DataModule {
     @Singleton
     abstract fun bindUserRepository(
         // For development and tests
-        impl: FakeUserRepositoryImpl
+        //impl: FakeUserRepositoryImpl
         // For local user storage
-        // impl: UserRepositoryImpl
+        impl: UserRepositoryImpl
     ): UserRepository
 
     @Binds

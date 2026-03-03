@@ -2,6 +2,7 @@ package com.example.kittystore.data.repository
 
 import com.example.kittystore.data.dto.UserDto
 import com.example.kittystore.data.mapper.toDomain
+import com.example.kittystore.domain.model.User
 import com.example.kittystore.domain.usecase.auth.CreateUserResult
 import com.example.kittystore.domain.repository.UserRepository
 import kotlinx.coroutines.delay
@@ -39,7 +40,7 @@ class FakeUserRepositoryImpl @Inject constructor() : UserRepository {
         }
     }
 
-    override suspend fun getUserByUsername(username: String): UserDto? {
-        return users[username]
+    override suspend fun getUserByUsername(username: String): User? {
+        return users[username]?.toDomain()
     }
 }

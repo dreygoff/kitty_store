@@ -1,10 +1,9 @@
 package com.example.kittystore.data.repository
 
-import com.example.kittystore.data.dto.UserDto
 import com.example.kittystore.data.local.dao.UserDao
 import com.example.kittystore.data.local.entity.UserEntity
 import com.example.kittystore.data.mapper.toDomain
-import com.example.kittystore.data.mapper.toDto
+import com.example.kittystore.domain.model.User
 import com.example.kittystore.domain.repository.UserRepository
 import com.example.kittystore.domain.usecase.auth.CreateUserResult
 import java.util.UUID
@@ -34,7 +33,7 @@ class UserRepositoryImpl @Inject constructor(
         return CreateUserResult.Success(userEntity.toDomain())
     }
 
-    override suspend fun getUserByUsername(username: String): UserDto? {
-        return userDao.getUserByUsername(username)?.toDto()
+    override suspend fun getUserByUsername(username: String): User? {
+        return userDao.getUserByUsername(username)?.toDomain()
     }
 }

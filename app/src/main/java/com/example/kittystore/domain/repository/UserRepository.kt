@@ -1,6 +1,7 @@
 package com.example.kittystore.domain.repository
 
 import com.example.kittystore.data.dto.UserDto
+import com.example.kittystore.domain.model.User
 import com.example.kittystore.domain.usecase.auth.CreateUserResult
 
 interface UserRepository {
@@ -12,5 +13,5 @@ interface UserRepository {
 
     suspend fun getUserByUsername(
         username: String
-    ): UserDto?
+    ): User?
 }
